@@ -4,9 +4,10 @@ import { auth, fireDB } from "../../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Timestamp, collection, addDoc } from "firebase/firestore";
 import { globalContext } from "../context/globalState";
+import { Form, FormControl, FieldError } from "../components/Form";
 
 function Signup() {
-  const { displayToast } = useContext(globalContext);
+  const { displayToast, login } = useContext(globalContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,6 +65,7 @@ function Signup() {
       const userCollectionRef = collection(fireDB, "user");
       addDoc(userCollectionRef, newUser)
       .then(res => {
+        login(userCred.user);
         displayToast({
           message: "Registered successfully",
           type: "success",
@@ -99,14 +101,8 @@ function Signup() {
   }
 
   return (
-    <div className="flex justify-center align-center">
-      <form
-        action={handleSubmit}
-        noValidate
-        className="w-1/3 border border-gray rounded px-6 py-5"
-      >
-        <h3 className="text-2xl font-bold mb-3 text-center text-primary">Register!</h3>
-        <div className="w-full py-2">
+    <Form onSubmit={handleSubmit} title="Register!" submitText="Register">
+        <FormControl>
           <input
             type="text"
             id="name"
@@ -116,9 +112,9 @@ function Signup() {
             value={formData.name}
             onChange={handleChange}
           />
-          <span className="text-xs text-red">{errors.name}</span>
-        </div>
-        <div className="w-full py-2">
+          <FieldError message={errors.name} />
+        </FormControl>
+        <FormControl>
           <input
             type="email"
             id="email"
@@ -128,9 +124,9 @@ function Signup() {
             value={formData.email}
             onChange={handleChange}
           />
-          <span className="text-xs text-red">{errors.email}</span>
-        </div>
-        <div className="w-full py-2">
+          <FieldError message={errors.email} />
+        </FormControl>
+        <FormControl>
           <input
             type="password"
             id="password"
@@ -140,9 +136,9 @@ function Signup() {
             value={formData.password}
             onChange={handleChange}
           />
-          <span className="text-xs text-red">{errors.password}</span>
-        </div>
-        <div className="w-full py-2">
+          <FieldError message={errors.password} />
+        </FormControl>
+        <FormControl>
           <input
             type="password"
             id="confirm-password"
@@ -152,19 +148,12 @@ function Signup() {
             value={formData.confirmPassword}
             onChange={handleChange}
           />
-          <span className="text-xs text-red text-left">{errors.confirmPassword}</span>
-        </div>
+          <FieldError message={errors.confirmPassword} />
+        </FormControl>
         <p>
           Already registered ? <Link to="/signin" className="text-secondary underline">Sign In</Link>
         </p>
-        <button
-          type="submit"
-          className="block mx-auto mt-2 px-3 py-2 rounded cursor-pointer bg-secondary text-white hover:bg-primary"
-        >
-          Register
-        </button>
-      </form>
-    </div>
+    </Form>
   );
 }
 

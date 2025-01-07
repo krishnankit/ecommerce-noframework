@@ -1,7 +1,7 @@
 export function globalReducer(state, { type, payload }) {
   switch(type) {
     case "LOGIN": {
-      localStorage.setItem("user", payload.user);
+      localStorage.setItem("user", JSON.stringify(payload.user));
       return {
         ...state,
         currentUser: payload.user,
