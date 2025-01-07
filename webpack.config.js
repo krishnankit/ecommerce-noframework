@@ -6,7 +6,8 @@ module.exports = {
   mode: "development",
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: "index_bundle.js"
+    filename: "index_bundle.js",
+    publicPath: "/",
   },
   target: "web",
   devServer: {

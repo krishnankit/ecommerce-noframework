@@ -58,10 +58,15 @@ function Signin() {
     return Object.keys(errors).length > 0 ? false : true;
   }
 
+  function isAdmin(uid) {
+    return false;
+  }
+
   function handleSubmit() {
     if (validate(formData)) {
      signInWithEmailAndPassword(auth, formData.email, formData.password)
      .then(userCred => {
+      userCred.user.isAdmin = isAdmin(userCred.user.uid);
       login(userCred.user);
       navigate("/");
       displayToast({

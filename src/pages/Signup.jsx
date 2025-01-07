@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { auth, fireDB } from "../../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Timestamp, collection, addDoc } from "firebase/firestore";
@@ -7,12 +7,14 @@ import { globalContext } from "../context/globalState";
 import { Form, FormControl, FieldError } from "../components/Form";
 
 function Signup() {
+  const navigate = useNavigate();
   const { displayToast, login } = useContext(globalContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    admin: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -54,18 +56,21 @@ function Signup() {
     if (validate(formData)) {
      createUserWithEmailAndPassword(auth, formData.email, formData.password)
      .then(userCred => {
+      console.log("user cred", userCred);
       const newUser = {
-        isAdmin: false,
+        isAdmin: formData.admin,
         name: formData.name,
         email: formData.email,
         uid: userCred.user.uid,
         createdAt: Timestamp.now(),
       }
 
-      const userCollectionRef = collection(fireDB, "user");
+      const userCollectionRef = collection(fireDB, "users");
       addDoc(userCollectionRef, newUser)
       .then(res => {
+        console.log(res);
         login(userCred.user);
+        navigate("/");
         displayToast({
           message: "Registered successfully",
           type: "success",
@@ -96,11 +101,19 @@ function Signup() {
     setErrors({
       ...errors,
       [e.target.name]: null
-    })
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
     });
+
+    if (e.target.name === "admin") {
+      setFormData({
+        ...formData,
+        admin: e.target.checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    }
   }
 
   return (
@@ -152,6 +165,15 @@ function Signup() {
             onChange={handleChange}
           />
           <FieldError message={errors.confirmPassword} />
+        </FormControl>
+        <FormControl>
+          <input
+            type="checkbox"
+            name="admin"
+            id="admin"
+            onChange={handleChange}
+          />
+          <label htmlFor="admin"><strong> Register as a SELLER {formData.admin}</strong></label>
         </FormControl>
         <p>
           Already registered ? <Link to="/signin" className="text-secondary underline">Sign In</Link>

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { globalContext } from "../context/globalState";
+import { checkAdmin } from "../helpers";
 
 function Navbar() {
   const { globalState: { currentUser } } = useContext(globalContext);
-  const isAdmin = currentUser?.isAdmin ?? false;
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const accountBtnRef = useRef();
   const dropdownRef = useRef();
@@ -37,6 +37,19 @@ function Navbar() {
   // Find better solution to this
   useEffect(() => {
     setShowDropdown(false);
+  }, [currentUser]);
+
+  // Check if current user is admin
+  useEffect(() => {
+    if (currentUser) {
+      checkAdmin(currentUser.uid)
+        .then((res) => {
+          setIsAdmin(res);
+        })
+        .catch((error) => {
+          console.error("Error fetching admin status:", error);
+        });
+    }
   }, [currentUser]);
 
   function toggleDropdown(event) {

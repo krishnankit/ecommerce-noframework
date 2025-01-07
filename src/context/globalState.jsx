@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from "react";
 import { globalReducer } from "./globalReducer";
 
 const initialState = {
-  currentUser: localStorage.getItem("user") ?? null,
+  currentUser: JSON.parse(localStorage.getItem("user")) ?? null,
   toast: null,
 }
 
