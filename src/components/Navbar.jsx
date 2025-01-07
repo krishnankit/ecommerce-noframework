@@ -4,13 +4,14 @@ import { globalContext } from "../context/globalState";
 
 function Navbar() {
   const { globalState: { currentUser } } = useContext(globalContext);
-  const isAdmin = currentUser?.isAdmin ?? true;
-  console.log("nav isadmin", isAdmin);
+  const isAdmin = currentUser?.isAdmin ?? false;
 
   const [showDropdown, setShowDropdown] = useState(false);
+  console.log("showDropdown", showDropdown);
   const accountBtnRef = useRef();
   const dropdownRef = useRef();
 
+  // Add Eventlistener on body to close dropdown when clicked elsewhere.
   useEffect(() => {
     function closeDropdown(event) {
       if (!accountBtnRef.current) {
@@ -33,6 +34,12 @@ function Navbar() {
     return () => document.removeEventListener("click", closeDropdown);
   }, []);
 
+  // Dropdown should be closed when logged out
+  // Find better solution to this
+  useEffect(() => {
+    setShowDropdown(false);
+  }, [currentUser]);
+
   function toggleDropdown(event) {
     setShowDropdown(!showDropdown);
     if (showDropdown) {
@@ -48,11 +55,11 @@ function Navbar() {
         <Link to="/" className="text-4xl">
           <span className="text-5xl font-extrabold text-secondary">K</span>art
         </Link>
-            <ul className="flex justify-center">
+            <ul className="flex justify-center items-center">
               { isAdmin ?
                 <>
-                  <Navitem label="Products" link="admin/products" />
-                  <Navitem label="Users" link="admin/users" />
+                  <Navitem label="All Products" link="admin/products" />
+                  <Navitem label="Add Product" link="admin/add-product" />
                   <Navitem label="Orders" link="admin/orders" />
                 </>
                 :
@@ -61,7 +68,7 @@ function Navbar() {
                   <Navitem label="Orders" link="orders" />
                 </>
               }
-              { currentUser ?
+              { !currentUser ?
                 <Navitem label="Sign In" link="signin" />
                 :
                 <li
@@ -116,7 +123,6 @@ function Navitem({ label, link }) {
 }
 
 function Dropdown({ show, dropdownRef, isAdmin }) {
-  console.log("isAdmin", isAdmin);
   const { logout, displayToast } = useContext(globalContext);
   const navigate = useNavigate();
 
@@ -134,7 +140,7 @@ function Dropdown({ show, dropdownRef, isAdmin }) {
       <li
         className="px-2 py-2 cursor-pointer delay-100"
         onClick={() => {
-          logout;
+          logout();
           navigate("/");
           displayToast({
             message: "Logged Out",
