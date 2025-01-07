@@ -22,14 +22,14 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/cart" element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <CartPage />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             } />
             <Route path="/orders" element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <OrdersPage />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             } />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/signin" element={<SigninPage />} />
@@ -40,10 +40,20 @@ function App() {
   );
 }
 
-function ProtectedRoute({ children }) {
+function UserProtectedRoute({ children }) {
   const { globalState } = useContext(globalContext);
 
   if (globalState.currentUser) {
+    return { children }
+  } else {
+    return <Navigate to="/signin" />
+  }
+}
+
+function AdminProtectedRoute({ children }) {
+  const { globalState } = useContext(globalContext);
+
+  if (globalContext.currentUser?.isAdmin) {
     return { children }
   } else {
     return <Navigate to="/signin" />

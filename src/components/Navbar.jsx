@@ -7,7 +7,6 @@ function Navbar() {
   const isAdmin = currentUser?.isAdmin ?? false;
 
   const [showDropdown, setShowDropdown] = useState(false);
-  console.log("showDropdown", showDropdown);
   const accountBtnRef = useRef();
   const dropdownRef = useRef();
 

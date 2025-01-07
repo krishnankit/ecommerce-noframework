@@ -76,7 +76,10 @@ function Signin() {
       })
      })
     } else {
-      console.log(errors);
+      displayToast({
+        message: "Check Errors",
+        type: "error"
+      });
     }
   }
 

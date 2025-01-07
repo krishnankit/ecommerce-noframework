@@ -85,7 +85,10 @@ function Signup() {
       })
      })
     } else {
-      console.log(errors);
+      displayToast({
+        message: "Check Errors",
+        type: "error"
+      });
     }
   }
 
