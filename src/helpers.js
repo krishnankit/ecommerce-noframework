@@ -1,4 +1,3 @@
-// helpers.js
 import { fireDB } from "../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 

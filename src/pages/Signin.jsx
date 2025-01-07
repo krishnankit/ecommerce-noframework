@@ -13,14 +13,6 @@ function Signin() {
   } = useContext(globalContext);
   const navigate = useNavigate();
 
-  // if (currentUser) {
-  //   navigate("/");
-  //   displayToast({
-  //     message: "Already Signed In",
-  //     type: "info",
-  //   })
-  // }
-
   useEffect(() => {
     if (currentUser) {
       navigate("/");
