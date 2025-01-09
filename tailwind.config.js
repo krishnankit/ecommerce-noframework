@@ -14,11 +14,12 @@ export default {
     colors: {
       primary: "#0A2647",
       secondary: "#2C74B3",
-      tertiary: "#DDDDDD",
+      tertiary: "#EEEEEE",
       white: "#FFFFFF",
       gray: "#333333",
       red: "#BB0000",
       green: "#00BB00",
+      transparent: "rgba(0, 0, 0, 0.3)"
     },
     fontFamily: {
       sans: ["Verdana", "Geneva", "Tahoma", "sans"],

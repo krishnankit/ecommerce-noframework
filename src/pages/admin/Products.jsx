@@ -6,8 +6,9 @@ import { globalContext } from "../../context/globalState";
 import ProductModal from "./ProductModal";
 
 function Products() {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
+  const [modalProduct, setModalProduct] = useState(null);
   const { displayToast } = useContext(globalContext);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function Products() {
             ...doc.data(),
           }
         ]);
-      })
+      });
     })
     .catch(error => {
       console.error(error);
@@ -33,11 +34,12 @@ function Products() {
   }, []);
 
   function closeModal() {
-    console.log("inside closemodal");
+    setModalProduct(null);
     setShowModal(false);
   }
 
-  function displayModal() {
+  function displayModal({ prod }) {
+    setModalProduct(prod);
     setShowModal(true);
   }
 
@@ -91,7 +93,7 @@ function Products() {
                 </td>
                 <td
                   className="px-3 py-2 text-center border border-2 border-solid"
-                  onClick={displayModal}
+                  onClick={() => displayModal({ prod })}
                 >
                   <FaEye />
                 </td>
@@ -101,7 +103,7 @@ function Products() {
         </tbody>
       </table>
       {
-        showModal && <ProductModal product={""} onClose={closeModal} />
+        showModal && <ProductModal product={modalProduct} onClose={closeModal} />
       }
     </div>
   );

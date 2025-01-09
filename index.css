@@ -2,16 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/* NAVBAR */
-/* li svg, li svg path {
-  transition-delay: 100ms;
-  transition-duration: 100ms;
-}
-
-li[open] svg {
-  transform: rotate(-180deg);
-}
-
-li:hover svg path {
-  stroke: var(--primary) !important;
-} */

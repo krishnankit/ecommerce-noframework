@@ -6,7 +6,7 @@ function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <Toast message="This is a new component" type="info" />
+      <Toast />
       <main className="container mx-auto py-4">
         { children }
       </main>

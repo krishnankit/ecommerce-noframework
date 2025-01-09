@@ -34,7 +34,6 @@ function AddProduct() {
   function validate(formData) {
     let errors = {}
     for (let field in formData) {
-      console.log(formData[field]);
       if (!formData[field]) {
         errors[field]= `${capitalize(field)} is required`;
       }
