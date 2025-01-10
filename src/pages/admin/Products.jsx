@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { FaEdit, FaEye, FaPen, FaTrash, Fatrash } from "react-icons/fa";
+import { Link } from "react-router";
+import { FaPen, FaEye, FaTrash } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../../../firebaseConfig";
 import { globalContext } from "../../context/globalState";
@@ -84,7 +85,7 @@ function Products() {
                 <td
                   className="px-3 py-2 text-center border border-2 border-solid"
                 >
-                  <FaEdit />
+                  <Link to={`/admin/edit-product/${prod.id}`}><FaPen /></Link>
                 </td>
                 <td
                   className="px-3 py-2 text-center border border-2 border-solid"
