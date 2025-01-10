@@ -56,7 +56,6 @@ function Signup() {
     if (validate(formData)) {
      createUserWithEmailAndPassword(auth, formData.email, formData.password)
      .then(userCred => {
-      console.log("user cred", userCred);
       const newUser = {
         isAdmin: formData.admin,
         name: formData.name,

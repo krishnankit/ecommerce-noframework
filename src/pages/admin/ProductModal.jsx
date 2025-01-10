@@ -12,15 +12,17 @@ function ProductModal({ product, onClose }) {
         >
           <IoClose />
         </button>
-        <h1 className="text-xl font-bold">Product Details</h1>
+        <h1 className="text-xl font-bold text-primary">Product Details</h1>
         <div className="md:flex justify-between mt-4 md:text-left">
           <div className="md:w-[40%] mb-4 border border-bottom">
             <img className="w-[80%] mx-auto" src={product.imageURL} alt={product.title} />
           </div>
           <div className="md:w-[55%] grid grid-cols-2 gap-3">
-            <h2 className="col-span-2 border-b text-left text-xl font-bold">
-              {product.title}
-            </h2>
+            <div className="col-span-2 border-b">
+              <h2 className="mb-2 text-left text-xl font-bold">
+                {product.title}
+              </h2>
+            </div>
             <div className="border-r">
               <p>Price:</p>
               <h3 className="text-4xl font-extrabold">
@@ -33,8 +35,11 @@ function ProductModal({ product, onClose }) {
               <h3 className="text-4xl font-extrabold">{product.quantity}</h3>
             </div>
             <div className="border-t col-span-2">
-              <h3>Description: </h3>
+              <h3 className="mt-2 font-bold">Description: </h3>
               <p>{product.description}</p>
+            </div>
+            <div>
+              <p>Category: <strong>{product.category}</strong></p>
             </div>
           </div>
         </div>

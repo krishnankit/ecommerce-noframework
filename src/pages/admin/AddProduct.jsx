@@ -50,11 +50,10 @@ function AddProduct() {
         sellerId: currentUser.uid,
         createdAt: Timestamp.now(),
       }
-      console.log(newProduct);
       const docRef = collection(fireDB, "products");
       addDoc(docRef, newProduct)
       .then(res => {
-        navigate("/admin/all-products");
+        navigate("/admin/products");
         displayToast({
           message: "Producted created!",
           type: "success",

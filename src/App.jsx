@@ -15,6 +15,7 @@ import CartPage from "./pages/Cart";
 import OrdersPage from "./pages/Orders";
 import ProductsPageAdmin from "./pages/admin/Products";
 import AddProductPageAdmin from "./pages/admin/AddProduct";
+import EditProductPageAdmin from "./pages/admin/EditProduct";
 import OrdersPageAdmin from "./pages/admin/Orders";
 import { checkAdmin } from "./helpers";
 
@@ -46,6 +47,11 @@ function App() {
               <Route path="add-product" element={
                 <AdminProtectedRoute>
                   <AddProductPageAdmin />
+                </AdminProtectedRoute>
+              } />
+              <Route path="edit-product/:id" element={
+                <AdminProtectedRoute>
+                  <EditProductPageAdmin />
                 </AdminProtectedRoute>
               } />
               <Route path="orders" element={
@@ -104,7 +110,7 @@ function AdminProtectedRoute({ children }) {
 
   if (!currentUser || !isAdmin) {
     // Redirect if not logged in or not an admin
-    return <Navigate to="/signin" />;
+    return <Navigate to="/" />;
   }
 
   // Render children if the user is an admin
