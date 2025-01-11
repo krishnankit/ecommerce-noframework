@@ -7,7 +7,7 @@ function Layout({ children }) {
     <>
       <Navbar />
       <Toast />
-      <main className="container mx-auto py-4">
+      <main className="container mx-auto py-4 px-2">
         { children }
       </main>
     </>

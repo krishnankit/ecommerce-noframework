@@ -55,7 +55,7 @@ function AddProduct() {
       .then(res => {
         navigate("/admin/products");
         displayToast({
-          message: "Producted created!",
+          message: "Product created!",
           type: "success",
         });
       })
