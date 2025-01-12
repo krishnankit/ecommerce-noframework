@@ -4,8 +4,6 @@ import { globalContext } from "../context/globalState";
 function Toast() {
   const { globalState: { toast }, closeToast } = useContext(globalContext);
 
-  if (!toast) return;
-
   const getBgColor = {
     "info": "secondary",
     "success": "green",
@@ -13,9 +11,14 @@ function Toast() {
   }
 
   return (
-    <div className="absolute px-3 py-2 left-1/2 top-5 -translate-x-1/2 flex items-center gap-3  bg-white border border-primary shadow-bottom-right shadow-secondary hover:shadow-bottom-right-sm hover:shadow-secondary transition delay-100">
-      <div className={`bg-${getBgColor[toast.type] || "secondary"} w-2 h-8`}></div>
-      <p className="ml-2">{toast.message}</p>
+    <div
+      className="fixed px-3 py-2 left-1/2 -top-20 -translate-x-1/2 flex items-center gap-3  bg-white border border-primary shadow-bottom-right shadow-secondary hover:shadow-bottom-right-sm hover:shadow-secondary"
+      style={{
+        transform: toast ? "translate(-50%, 200%)" : ""
+      }}
+    >
+      <div className={`bg-${getBgColor[toast?.type] || "secondary"} w-2 h-8`}></div>
+      <p className="ml-2">{toast?.message}</p>
       <button
         className="cursor-pointer"
         onClick={closeToast}

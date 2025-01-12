@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { globalContext } from "../context/globalState";
-import { checkAdmin } from "../helpers";
+import { capitalize, checkAdmin } from "../helpers";
 
 function Navbar() {
   const { globalState: { currentUser } } = useContext(globalContext);
@@ -62,11 +62,19 @@ function Navbar() {
   }
 
   return (
-    <nav className="bg-primary text-tertiary font-sans">
+    <nav className="bg-primary text-tertiary font-primary border-b-[0.8rem] border-secondary">
       <div className="container relative m-auto flex items-center justify-between py-2">
-        <Link to="/" className="text-4xl">
-          <span className="text-5xl font-extrabold text-secondary">K</span>art
-        </Link>
+        <div>
+          <Link to="/" className="text-4xl">
+            <span className="text-5xl font-extrabold text-secondary">K</span>art
+          </Link>
+          {
+            currentUser &&
+            <span className="ml-4 text-white text-xl font-secondary">
+              Hello, {capitalize(currentUser.name.split(" ")[0])}
+            </span>
+          }
+        </div>
             <ul className="flex justify-center items-center">
               { isAdmin ?
                 <>
@@ -84,7 +92,7 @@ function Navbar() {
                 <Navitem label="Sign In" link="signin" />
                 :
                 <li
-                  className="ml-6 px-4 py-2 rounded text-center cursor-pointer transition delay-100 hover:bg-tertiary hover:text-primary group"
+                  className="ml-6 px-4 py-2 text-center cursor-pointer group hover:bg-white hover:text-primary  hover:shadow-bottom-right-md hover:shadow-secondary transition delay-100 group"
                   onClick={event => toggleDropdown(event)}
                   ref={accountBtnRef}
                 >
@@ -128,7 +136,7 @@ function Navbar() {
 
 function Navitem({ label, link }) {
   return (
-    <li className="ml-6 px-4 py-2 w-24 rounded text-center cursor-pointer transition delay-100 hover:bg-tertiary hover:text-primary">
+    <li className="ml-6 px-4 py-2 w-24 text-center cursor-pointer hover:bg-white hover:text-primary  hover:shadow-bottom-right-md hover:shadow-secondary transition delay-100">
       <Link to={link}>{label}</Link>
     </li>
   );
@@ -140,7 +148,7 @@ function Dropdown({ show, dropdownRef, isAdmin }) {
 
   return (
     <ul
-      className={!show ? "hidden" : "bg-white px-3 py-1 divide-y w-40 absolute right-0 border rounded top-[80%] text-primary transition delay-100"}
+      className={!show ? "hidden" : "bg-white px-3 py-1 divide-y w-40 absolute right-0 border  top-[80%] text-primary shadow-bottom-right shadow-secondary transition delay-100"}
       ref={dropdownRef}
     >
       { !isAdmin &&
