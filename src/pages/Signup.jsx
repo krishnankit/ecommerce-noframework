@@ -64,10 +64,15 @@ function Signup() {
         createdAt: Timestamp.now(),
       }
 
+      if (!formData.admin) {
+        newUser.cart = {}
+      }
+
       const userCollectionRef = collection(fireDB, "users");
       addDoc(userCollectionRef, newUser)
       .then(res => {
-        console.log(res);
+        userCred.user.databaseId = res.id;
+        userCred.user.name = res.name;
         login(userCred.user);
         navigate("/");
         displayToast({

@@ -53,7 +53,6 @@ function EditProduct() {
         updatedAt: Timestamp.now()
       })
       .then(res => {
-        debugger;
         displayToast({
           message: "Producted updated",
           type: "success",

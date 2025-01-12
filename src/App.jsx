@@ -71,7 +71,7 @@ function UserProtectedRoute({ children }) {
   const { globalState: { currentUser } } = useContext(globalContext);
 
   if (currentUser) {
-    return { children }
+    return children
   } else {
     return <Navigate to="/signin" />
   }

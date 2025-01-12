@@ -23,4 +23,21 @@ async function checkAdmin(uid) {
   }
 }
 
-export { checkAdmin, capitalize };
+async function getUserIdAndName(uid) {
+  try {
+    const q = query(collection(fireDB, "users"), where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const databaseId = querySnapshot.docs[0].id;
+      const { name } = querySnapshot.docs[0].data();
+      return { databaseId, name };
+    } else {
+      throw Error("Unable to find User");
+    }
+  } catch (error) {
+    throw Error("Unable to get User");
+  }
+}
+
+export { checkAdmin, capitalize, getUserIdAndName };

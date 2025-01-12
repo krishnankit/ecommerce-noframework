@@ -4,6 +4,7 @@ import { auth } from "../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { globalContext } from "../context/globalState";
 import { Form, FormControl, FieldError } from "../components/Form";
+import { getUserIdAndName } from "../helpers";
 
 function Signin() {
   const {
@@ -50,28 +51,36 @@ function Signin() {
     return Object.keys(errors).length > 0 ? false : true;
   }
 
-  function isAdmin(uid) {
-    return false;
-  }
-
-  function handleSubmit() {
+  async function handleSubmit() {
     if (validate(formData)) {
-     signInWithEmailAndPassword(auth, formData.email, formData.password)
-     .then(userCred => {
-      userCred.user.isAdmin = isAdmin(userCred.user.uid);
-      login(userCred.user);
-      navigate("/");
-      displayToast({
-        message: "Signed In successfully",
-        type: "success",
-      });
-     })
-     .catch(error => {
-      displayToast({
-        message: error.message,
-        type: "error",
-      })
-     })
+      try {
+        signInWithEmailAndPassword(auth, formData.email, formData.password)
+        .then(async userCred => {
+          const { name, databaseId } = await getUserIdAndName(userCred.user.uid);
+          login({
+            name,
+            databaseId,
+            uid: userCred.user.uid,
+          });
+          navigate("/");
+          displayToast({
+            message: "Signed In successfully",
+            type: "success",
+          });
+        })
+        .catch(error => {
+          displayToast({
+            message: error.message,
+            type: "error",
+          })
+        })
+      } catch (error) {
+        displayToast({
+          message: "OOPS! Something went wrong",
+          type: "error"
+        });
+        console.error(error);
+      }
     } else {
       displayToast({
         message: "Check Errors",

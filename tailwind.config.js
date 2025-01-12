@@ -23,6 +23,8 @@ export default {
     },
     fontFamily: {
       sans: ["Verdana", "Geneva", "Tahoma", "sans"],
+      primary: ["Montserrat", "serif"],
+      secondary: ["Agbalumo", "serif"],
     },
     fontSize: {
       'xs': '0.6rem',
@@ -34,6 +36,11 @@ export default {
       '4xl': '2.441rem',
       '5xl': '3.052rem',
     },
+    boxShadow: {
+      "bottom-right-sm": "2px 4px",
+      "bottom-right-md": "3px 6px",
+      "bottom-right" : "5px 8px",
+    }
     // safelist: [
     //   {
     //     pattern:
