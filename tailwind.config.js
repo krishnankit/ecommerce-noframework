@@ -16,7 +16,7 @@ export default {
       secondary: "#2C74B3",
       tertiary: "#EEEEEE",
       white: "#FFFFFF",
-      gray: "#333333",
+      gray: "#555555",
       red: "#BB0000",
       green: "#00BB00",
       transparent: "rgba(0, 0, 0, 0.3)"

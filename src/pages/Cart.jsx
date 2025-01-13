@@ -8,6 +8,7 @@ import { FaArrowDown, FaArrowUp, FaRupeeSign, FaTrash } from "react-icons/fa";
 function Cart() {
   const { globalState: { currentUser }, displayToast } = useContext(globalContext);
   const [cartItems, setCartItems] = useState([]);
+  const [grandTotal, setGrandTotal] = useState(0);
 
   useEffect(() => {
     const userDocRef = doc(fireDB, "users", currentUser.databaseId);
@@ -50,6 +51,15 @@ function Cart() {
     });
   }, []);
 
+  useEffect(() => {
+    let grandTotal = cartItems.reduce((total, item) => {
+      total += (item.cartQuantity * item.price);
+      return total;
+    }, 0);
+
+    setGrandTotal(grandTotal);
+  }, [cartItems]);
+
   function modifyQuantity(id, action) {
     let items = [...cartItems];
     let item = items.find(item => item.id === id);
@@ -73,16 +83,16 @@ function Cart() {
   }
 
   return (
-    <div className="md:flex md:flex-row-reversed justify-between items-start">
-      <Sidebar />
-      <div className="md:w-[73%] text-center">
-        <h1 className="text-left text-primary border-b-4 mb-3 border-secondary text-2xl font-bold">
-          Your Kart:
-        </h1>
+    <div className="lg:flex justify-between items-start">
+      <div className="lg:w-[73%] text-center mb-[5rem]">
+        <div className="flex justify-between text-primary border-b-4 mb-3 border-secondary text-2xl font-bold">
+          <h1>Your Kart:</h1>
+          <h1>Total items: {cartItems.length}</h1>
+        </div>
         {
           cartItems.map(cartItem => {
             return (
-              <div key={cartItem.id} className="grid sm:grid-cols-2 md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr_0.2fr] items-center gap-4 border-b-2 py-3 border-secondary">
+              <div key={cartItem.id} className="grid sm:grid-cols-2 md:grid-cols-[1fr_1fr_1fr_1fr_0.2fr] items-center gap-4 border-b-2 py-3 border-secondary">
                 <img
                   src={cartItem.imageURL}
                   alt={cartItem.id}
@@ -138,6 +148,27 @@ function Cart() {
                       <FaTrash />
                     </button>
                 </div>
+              </div>
+            );
+          })
+        }
+      </div>
+      <div className="lg:w-[25%]">
+        <div className="flex justify-between text-primary border-b-4 mb-3 border-secondary text-2xl font-bold">
+          <h1>Your Total:</h1>
+          <h1><FaRupeeSign className="inline" />{grandTotal}</h1>
+        </div>
+        {
+          cartItems.map(cartItem => {
+            return (
+              <div className="grid grid-cols-[4fr_1fr] border-b-2 border-secondary p-2">
+                <p>{cartItem.title}</p>
+                <p>
+                  <FaRupeeSign className="inline text-sm" />{cartItem.price * cartItem.cartQuantity}
+                  <span className="text-sm text-gray block">
+                    ({`${cartItem.price} x ${cartItem.cartQuantity}`})
+                  </span>
+                </p>
               </div>
             );
           })
