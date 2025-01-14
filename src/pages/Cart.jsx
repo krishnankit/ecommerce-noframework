@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { collection, doc, documentId, getDocs, getDoc, query, where } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 import { globalContext } from "../context/globalState";
-import Sidebar from "../components/Sidebar";
 import { FaArrowDown, FaArrowUp, FaRupeeSign, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router";
+import CartSummary from "../components/CartSummary";
 
 function Cart() {
   const { globalState: { currentUser }, displayToast } = useContext(globalContext);
   const [cartItems, setCartItems] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userDocRef = doc(fireDB, "users", currentUser.databaseId);
@@ -51,15 +53,6 @@ function Cart() {
     });
   }, []);
 
-  useEffect(() => {
-    let grandTotal = cartItems.reduce((total, item) => {
-      total += (item.cartQuantity * item.price);
-      return total;
-    }, 0);
-
-    setGrandTotal(grandTotal);
-  }, [cartItems]);
-
   function modifyQuantity(id, action) {
     let items = [...cartItems];
     let item = items.find(item => item.id === id);
@@ -80,6 +73,11 @@ function Cart() {
   function deleteItem(id) {
     const newItems = cartItems.filter(item => item.id != id);
     setCartItems(newItems);
+  }
+
+  function handleCheckout() {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    navigate("/checkout");
   }
 
   return (
@@ -154,25 +152,13 @@ function Cart() {
         }
       </div>
       <div className="lg:w-[25%]">
-        <div className="flex justify-between text-primary border-b-4 mb-3 border-secondary text-2xl font-bold">
-          <h1>Your Total:</h1>
-          <h1><FaRupeeSign className="inline" />{grandTotal}</h1>
-        </div>
-        {
-          cartItems.map(cartItem => {
-            return (
-              <div className="grid grid-cols-[4fr_1fr] border-b-2 border-secondary p-2">
-                <p>{cartItem.title}</p>
-                <p>
-                  <FaRupeeSign className="inline text-sm" />{cartItem.price * cartItem.cartQuantity}
-                  <span className="text-sm text-gray block">
-                    ({`${cartItem.price} x ${cartItem.cartQuantity}`})
-                  </span>
-                </p>
-              </div>
-            );
-          })
-        }
+        <CartSummary cartItems={cartItems} />
+        <button
+          className="w-full mt-4 py-2 text-white bg-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px]"
+          onClick={handleCheckout}
+        >
+          Proceed to CHECKOUT!
+        </button>
       </div>
     </div>
   );

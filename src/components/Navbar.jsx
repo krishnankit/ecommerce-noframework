@@ -136,7 +136,7 @@ function Navbar() {
 
 function Navitem({ label, link }) {
   return (
-    <li className="ml-6 px-4 py-2 w-24 text-center cursor-pointer hover:bg-white hover:text-primary  hover:shadow-bottom-right-md hover:shadow-secondary transition delay-100">
+    <li className="ml-6 px-4 py-2 w-24 text-center cursor-pointer bg-white text-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px] transition delay-100">
       <Link to={link}>{label}</Link>
     </li>
   );

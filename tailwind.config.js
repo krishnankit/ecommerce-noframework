@@ -9,6 +9,9 @@ export default {
     "bg-secondary",
     "bg-green",
     "bg-red",
+    "shadow-secondary",
+    "shadow-green",
+    "shadow-red",
   ],
   theme: {
     colors: {
@@ -22,9 +25,8 @@ export default {
       transparent: "rgba(0, 0, 0, 0.3)"
     },
     fontFamily: {
-      sans: ["Verdana", "Geneva", "Tahoma", "sans"],
-      primary: ["Montserrat", "serif"],
-      secondary: ["Agbalumo", "serif"],
+      primary: ["Montserrat", "sans"],
+      secondary: ["Agbalumo", "sans"],
     },
     fontSize: {
       'xs': '0.6rem',

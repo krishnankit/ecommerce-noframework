@@ -18,6 +18,7 @@ import AddProductPageAdmin from "./pages/admin/AddProduct";
 import EditProductPageAdmin from "./pages/admin/EditProduct";
 import OrdersPageAdmin from "./pages/admin/Orders";
 import { checkAdmin } from "./helpers";
+import CheckoutPage from "./pages/admin/CheckoutPage";
 
 function App() {
   return (
@@ -34,6 +35,11 @@ function App() {
             <Route path="/orders" element={
               <UserProtectedRoute>
                 <OrdersPage />
+              </UserProtectedRoute>
+            } />
+            <Route path="/checkout" element={
+              <UserProtectedRoute>
+                <CheckoutPage />
               </UserProtectedRoute>
             } />
             <Route path="/signup" element={<SignupPage />} />
