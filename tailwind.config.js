@@ -22,6 +22,7 @@ export default {
       gray: "#555555",
       red: "#BB0000",
       green: "#00BB00",
+      selected: "#ddffdd",
       transparent: "rgba(0, 0, 0, 0.3)"
     },
     fontFamily: {
