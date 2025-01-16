@@ -1,17 +1,24 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useRazorpay } from "react-razorpay"
 import CartSummary from "../../components/CartSummary";
 import { globalContext } from "../../context/globalState";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, addDoc, collection } from "firebase/firestore";
 import { fireDB } from "../../../firebaseConfig";
-import { Form, FormControl } from "../../components/Form";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
+import { destroyUserCart } from "../../helpers";
 
 function CheckoutPage() {
-  const { globalState: { currentUser: { databaseId } },
+  const { globalState: { currentUser },
     displayToast
   } = useContext(globalContext)
-  const cartItems = JSON.parse(localStorage.getItem("cart"));
+  const { items, grandTotal } = JSON.parse(localStorage.getItem("cart"));
+  const orderItems = items.map(item => (
+    {
+      id: item.id,
+      orderQuantity: item.cartQuantity,
+    }
+  ));
   const [addresses, setAddresses] = useState([]);
   let addressData = {
     houseName: "",
@@ -24,8 +31,10 @@ function CheckoutPage() {
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [valid, setValid] = useState(true);
 
+  const { Razorpay } = useRazorpay();
+
   useEffect(() => {
-    const userDocRef = doc(fireDB, "users", databaseId);
+    const userDocRef = doc(fireDB, "users", currentUser.databaseId);
     getDoc(userDocRef)
     .then(snapShot => {
       const addresses = snapShot.data().addresses || [];
@@ -66,7 +75,7 @@ function CheckoutPage() {
       })
       setValid(false);
     } else {
-      const userDocRef = doc(fireDB, "users", databaseId);
+      const userDocRef = doc(fireDB, "users", currentUser.databaseId);
       updateDoc(userDocRef, "addresses", [...addresses, address])
       .then(() => {
         displayToast({
@@ -88,7 +97,54 @@ function CheckoutPage() {
   }
 
   function handlePayment() {
-    
+    const options = {
+      key: process.env.REACT_APP_RAZOR_PAY_API_KEY,
+      amount: parseInt(grandTotal * 100),
+      currency: "INR",
+      description: "for testing purpose",
+      handler: function (response) {
+        console.log(response)
+        displayToast({
+          message: "Payment Successful",
+          type: "success",
+        });
+
+        const paymentId = response.razorpay_payment_id;
+
+        const orderInfo = {
+          items: orderItems,
+          address: addresses[selectedAddress],
+          date: new Date().toLocaleString(
+            "en-US",
+            {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            }
+          ),
+          email: currentUser.email,
+          userid: currentUser.uid,
+          paymentId,
+        }
+
+        destroyUserCart(currentUser.databaseId);
+
+        try {
+          const orderRef = collection(fireDB, 'orders');
+          addDoc(orderRef, orderInfo);
+
+        } catch (error) {
+          console.log(error)
+        }
+      },
+
+      theme: {
+        color: "#2C74B3"
+      }
+    };
+
+    const razorpayInstance = new Razorpay(options);
+    razorpayInstance.open();
   }
 
   return (
@@ -96,7 +152,7 @@ function CheckoutPage() {
       <div className="sm:flex justify-between gap-10">
         <div className="w-full mb-5 border-b-4 border-secondary">
           <h1 className="text-xl font-primary font-bold">Order Summary</h1>
-          <CartSummary cartItems={cartItems} />
+          <CartSummary cartItems={ items } />
         </div>
         <div className="w-full">
           <h1 className="text-xl font-primary font-bold">Select your address</h1>

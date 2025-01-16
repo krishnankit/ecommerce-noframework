@@ -61,6 +61,7 @@ function Signin() {
             name,
             databaseId,
             uid: userCred.user.uid,
+            email: userCred.user.email,
           });
           navigate("/");
           displayToast({

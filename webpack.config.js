@@ -1,5 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
 const path = require("node:path");
+
+dotenv.config();
 
 module.exports = {
   entry: "./index.js",
@@ -50,6 +54,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html")
-    })
+    }),
+    // fix "process is not defined" error:
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
   ],
 }

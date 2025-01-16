@@ -71,9 +71,12 @@ function Signup() {
       const userCollectionRef = collection(fireDB, "users");
       addDoc(userCollectionRef, newUser)
       .then(res => {
-        userCred.user.databaseId = res.id;
-        userCred.user.name = res.name;
-        login(userCred.user);
+        login({
+          name: res.name,
+          databaseId: res.id,
+          uid: userCred.user.uid,
+          email: userCred.user.email,
+        });
         navigate("/");
         displayToast({
           message: "Registered successfully",

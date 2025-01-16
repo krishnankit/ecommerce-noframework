@@ -26,7 +26,9 @@ function Cart() {
       getDocs(q)
       .then(snapShot => {
         let cartItems = [];
+        let grandTotal = 0;
         snapShot.docs.forEach(doc => {
+          grandTotal += ( cart[doc.id] * doc.data().price );
           cartItems.push({
             id: doc.id,
             cartQuantity: cart[doc.id],
@@ -34,6 +36,7 @@ function Cart() {
           });
         });
         setCartItems(cartItems);
+        setGrandTotal(grandTotal);
       })
       .catch(error => {
         displayToast({
@@ -76,7 +79,12 @@ function Cart() {
   }
 
   function handleCheckout() {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
+    console.log("grandtotal", grandTotal);
+    localStorage.setItem("cart", JSON.stringify({
+      items: cartItems,
+      grandTotal
+    }));
+
     navigate("/checkout");
   }
 
