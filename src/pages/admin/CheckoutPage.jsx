@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { useRazorpay } from "react-razorpay"
 import CartSummary from "../../components/CartSummary";
 import { globalContext } from "../../context/globalState";
-import { doc, getDoc, updateDoc, addDoc, collection } from "firebase/firestore";
+import { doc, getDoc, updateDoc, addDoc, collection, Timestamp } from "firebase/firestore";
 import { fireDB } from "../../../firebaseConfig";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router";
-import { destroyUserCart } from "../../helpers";
+import { Link, useNavigate } from "react-router";
+import { destroyUserCart, formattedAddress } from "../../helpers";
 
 function CheckoutPage() {
   const { globalState: { currentUser },
@@ -30,6 +30,7 @@ function CheckoutPage() {
   const [address, setAddress] = useState(addressData);
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [valid, setValid] = useState(true);
+  const navigate = useNavigate();
 
   const { Razorpay } = useRazorpay();
 
@@ -103,7 +104,6 @@ function CheckoutPage() {
       currency: "INR",
       description: "for testing purpose",
       handler: function (response) {
-        console.log(response)
         displayToast({
           message: "Payment Successful",
           type: "success",
@@ -113,18 +113,12 @@ function CheckoutPage() {
 
         const orderInfo = {
           items: orderItems,
+          amount: grandTotal,
           address: addresses[selectedAddress],
-          date: new Date().toLocaleString(
-            "en-US",
-            {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            }
-          ),
           email: currentUser.email,
-          userid: currentUser.uid,
+          userId: currentUser.databaseId,
           paymentId,
+          createdAt: Timestamp.now(),
         }
 
         destroyUserCart(currentUser.databaseId);
@@ -132,9 +126,14 @@ function CheckoutPage() {
         try {
           const orderRef = collection(fireDB, 'orders');
           addDoc(orderRef, orderInfo);
-
+          navigate("/orders");
         } catch (error) {
           console.log(error)
+          displayToast({
+            message: "Unable to to create order",
+            type: "error",
+          });
+          navigate("/");
         }
       },
 
@@ -166,7 +165,7 @@ function CheckoutPage() {
                   className={`flex justify-between items-center p-2 my-2 cursor-pointer border border-secondary ${selectedAddress === index && "bg-selected"}`}
                 >
                   <div>
-                    <p>{ `${address.houseName}, ${address.streetName} ${address.city} - ${address.pincode}.` }</p>
+                    <p>{ formattedAddress(address) }</p>
                     <p>{ `${address.state}.` }</p>
                   </div>
                   {

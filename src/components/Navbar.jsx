@@ -78,8 +78,8 @@ function Navbar() {
             <ul className="flex justify-center items-center">
               { isAdmin ?
                 <>
-                  <Navitem label="All Products" link="admin/products" />
-                  <Navitem label="Add Product" link="admin/add-product" />
+                  <Navitem label="Products" link="admin/products" />
+                  <Navitem label="+ Product" link="admin/add-product" />
                   <Navitem label="Orders" link="admin/orders" />
                 </>
                 :
@@ -136,7 +136,7 @@ function Navbar() {
 
 function Navitem({ label, link }) {
   return (
-    <li className="ml-6 px-4 py-2 w-24 text-center cursor-pointer bg-white text-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px] transition delay-100">
+    <li className="ml-6 px-4 py-2 w-30 text-center cursor-pointer bg-white text-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px] transition delay-100">
       <Link to={link}>{label}</Link>
     </li>
   );

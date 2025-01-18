@@ -1,5 +1,5 @@
 import { fireDB } from "../firebaseConfig";
-import { collection, query, where, getDocs, updateDoc } from "firebase/firestore";
+import { collection, doc, query, where, getDocs, updateDoc } from "firebase/firestore";
 
 function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1, string.length);
@@ -43,10 +43,22 @@ async function getUserIdAndName(uid) {
 async function destroyUserCart(id) {
   try {
     const docRef = doc(fireDB, "users", id);
-    updateDoc(docRef, "cart", {});
+    updateDoc(docRef, {
+      cart: {},
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-export { checkAdmin, capitalize, getUserIdAndName, destroyUserCart };
+function formattedAddress(address) {
+  return  `${address.houseName}, ${address.streetName} ${address.city} - ${address.pincode}.`
+}
+
+export {
+  checkAdmin,
+  capitalize,
+  getUserIdAndName,
+  destroyUserCart,
+  formattedAddress
+};

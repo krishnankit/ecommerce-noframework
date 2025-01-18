@@ -1,10 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 import Sidebar from "../components/Sidebar";
 import ProductCard from "../components/ProductCard";
+import { useNavigate } from "react-router";
+import { checkAdmin } from "../helpers";
+import { globalContext } from "../context/globalState";
 
 function Home() {
+  const { globalState: { currentUser } } = useContext(globalContext);
+  const navigate = useNavigate();
+  if (currentUser) {
+    checkAdmin(currentUser.uid)
+    .then(isAdmin => {
+      if (isAdmin) navigate("/admin/products");
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

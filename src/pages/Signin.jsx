@@ -4,7 +4,7 @@ import { auth } from "../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { globalContext } from "../context/globalState";
 import { Form, FormControl, FieldError } from "../components/Form";
-import { getUserIdAndName } from "../helpers";
+import { checkAdmin, getUserIdAndName } from "../helpers";
 
 function Signin() {
   const {
@@ -63,11 +63,23 @@ function Signin() {
             uid: userCred.user.uid,
             email: userCred.user.email,
           });
-          navigate("/");
-          displayToast({
-            message: "Signed In successfully",
-            type: "success",
-          });
+          checkAdmin(userCred.user.uid)
+          .then(isAdmin => {
+            if (isAdmin) navigate("/admin/products");
+            else navigate("/");
+            displayToast({
+              message: "Signed In successfully",
+              type: "success",
+            });
+          })
+          .catch(error => {
+            displayToast({
+              message: "Unable to authorize admin",
+              type: "error",
+            });
+            console.log(error);
+            navigate("/");
+          })
         })
         .catch(error => {
           displayToast({
@@ -120,6 +132,7 @@ function Signin() {
           type="password"
           id="password"
           name="password"
+          autoComplete="true"
           className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.password ? "border-red" : "border-gray"}`}
           placeholder="Password..."
           value={formData.password}
