@@ -121,7 +121,7 @@ function Cart() {
                     </div>
                     <div>
                       <button
-                        className="py-1 px-2 rounded bg-secondary text-white shadow-bottom-right-sm shadow-primary active:shadow-none active:translate-x-[2px] active:translate-y-[4px] transition duration-75 cursor-pointer"
+                        className="py-1 px-2 rounded bg-secondary text-white active:translate-x-[2px] active:translate-y-[4px] transition duration-75 cursor-pointer"
                         onClick={() =>{
                           if (cartItem.quantity > cartItem.cartQuantity) {
                             modifyQuantity(cartItem.id, "INCREMENT")
@@ -137,7 +137,7 @@ function Cart() {
                       </button>
                       <p className="inline-block mx-2 w-[2rem]">{cartItem.cartQuantity}</p>
                       <button
-                        className="py-1 px-2 rounded bg-secondary text-white shadow-bottom-right-sm shadow-primary active:shadow-none active:translate-x-[2px] active:translate-y-[4px] transition duration-75 cursor-pointer"
+                        className="py-1 px-2 rounded bg-secondary text-white transition duration-75 cursor-pointer"
                         onClick={() => {
                           if (cartItem.cartQuantity > 1) {
                             modifyQuantity(cartItem.id, "DECREMENT")
@@ -154,7 +154,7 @@ function Cart() {
                     </div>
                     <div>
                       <button
-                          className="py-1 px-2 ml-4 rounded bg-white border border-red text-red shadow-bottom-right-sm shadow-red active:shadow-none active:translate-x-[2px] active:translate-y-[4px] transition duration-75 cursor-pointer"
+                          className="py-1 px-2 ml-4 rounded bg-white border border-red text-red transition duration-75 cursor-pointer"
                           onClick={() => deleteItem(cartItem.id)}
                         >
                           <FaTrash />
@@ -168,7 +168,7 @@ function Cart() {
           <div className="lg:w-[25%]">
             <CartSummary cartItems={cartItems} />
             <button
-              className="w-full mt-4 py-2 text-white bg-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px]"
+              className="w-full mt-4 py-2 text-white bg-primary"
               onClick={handleCheckout}
             >
               Proceed to CHECKOUT!

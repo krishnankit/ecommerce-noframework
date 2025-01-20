@@ -48,7 +48,7 @@ function ProductCard({ product }) {
   }
 
   return (
-    <div className="pt-3 pb-5 px-3 border border-2 border-secondary rounded shadow-bottom-right shadow-primary">
+    <div className="pt-3 pb-5 px-3 border border-2 border-secondary rounded">
       <div className=" flex items-center">
         <img
           className="w-[60%] aspect-square"
@@ -63,13 +63,13 @@ function ProductCard({ product }) {
       <h1 className="mt-2">{product.title}</h1>
       <div className="flex justify-center mt-4 gap-3">
         <button
-          className="w-[full] px-4 py-2 rounded shadow-bottom-right shadow-secondary cusor-pointer text-white bg-primary hover:text-primary hover:bg-white hover:border hover:border-primary hover:shadow-bottom-right-sm hover:shadow-secondary transition delay-100"
+          className="w-[full] px-4 py-2 rounded cusor-pointer text-white bg-primary hover:text-primary hover:bg-white hover:border hover:border-primary transition delay-100"
           onClick={() => handleBuy(product.id)}
         >
           Buy
         </button>
         <button
-          className="w-[full] px-4 py-2 border border-secondary rounded text-secondary shadow-bottom-right shadow-primary cusor-pointer hover:text-white hover:bg-secondary hover:shadow-bottom-right-sm hover:shadow-primary transition delay-100"
+          className="w-[full] px-4 py-2 border border-secondary rounded text-secondary cusor-pointer hover:text-white hover:bg-secondary transition delay-100"
           onClick={() => {handleAddToCart(product.id)}}
         >
           Add to Cart

@@ -251,7 +251,7 @@ function CheckoutPage() {
               />
             </div>
             <button
-              className={`px-4 py-2 mt-2 mx-auto text-sm text-secondary bg-white border rounded border-secondary ${ valid ? "shadow-bottom-right-sm shadow-secondary active:translate-x-[2px] active:translate-y-[4px] active:shadow-none" : "text-red border-red" } transition duration-100`}
+              className={`px-4 py-2 mt-2 mx-auto text-sm text-secondary bg-white border rounded border-secondary ${ valid ? "" : "text-red border-red" } transition duration-100`}
               disabled={!valid}
             >
               Add address
@@ -261,13 +261,13 @@ function CheckoutPage() {
       </div>
       <div className="flex justify-between">
       <button
-        className="text-secondary bg-white py-2 px-4 border border-secondary shadow-bottom-right-md shadow-secondary active:translate-x-[1px] active:translate-y-[2px] active:shadow-bottom-right-sm active:shadow-secondary"
+        className="text-secondary bg-white py-2 px-4 border border-secondary"
       >
         <FaArrowLeft className="inline mr-2" />
         <Link to="/cart">Back to KART</Link>
       </button>
       <button
-        className="text-white bg-secondary py-2 px-4 shadow-bottom-right-md shadow-primary active:translate-x-[1px] active:translate-y-[2px] active:shadow-bottom-right-sm active:shadow-primary"
+        className="text-white bg-secondary py-2 px-4"
         onClick={handlePayment}
       >
         Proceed to payment

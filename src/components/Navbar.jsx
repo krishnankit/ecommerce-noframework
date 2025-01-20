@@ -92,7 +92,7 @@ function Navbar() {
                 <Navitem label="Sign In" link="signin" />
                 :
                 <li
-                  className="ml-6 px-4 py-2 text-center cursor-pointer group hover:bg-white hover:text-primary  hover:shadow-bottom-right-md hover:shadow-secondary transition delay-100 group"
+                  className="ml-6 px-4 py-2 text-center cursor-pointer group hover:bg-white hover:text-primary transition delay-100 group"
                   onClick={event => toggleDropdown(event)}
                   ref={accountBtnRef}
                 >
@@ -136,7 +136,7 @@ function Navbar() {
 
 function Navitem({ label, link }) {
   return (
-    <li className="ml-6 px-4 py-2 w-30 text-center cursor-pointer bg-white text-primary shadow-bottom-right-md shadow-secondary active:shadow-bottom-right-sm active:shadow-secondary active:translate-x-[1px] active:translate-y-[2px] transition delay-100">
+    <li className="ml-6 px-4 py-2 w-30 text-center cursor-pointer bg-white text-primary transition delay-100">
       <Link to={link}>{label}</Link>
     </li>
   );
@@ -148,7 +148,7 @@ function Dropdown({ show, dropdownRef, isAdmin }) {
 
   return (
     <ul
-      className={!show ? "hidden" : "bg-white px-3 py-1 divide-y w-40 absolute right-0 border  top-[80%] text-primary shadow-bottom-right shadow-secondary transition delay-100"}
+      className={!show ? "hidden" : "bg-white px-3 py-1 divide-y w-40 absolute right-0 border  top-[80%] text-primary transition delay-100"}
       ref={dropdownRef}
     >
       { !isAdmin &&

@@ -14,7 +14,7 @@ function Toast() {
 
   return (
     <div
-      className={`fixed min-w-[6rem] px-3 py-2 left-1/2 -top-20 -translate-x-1/2 flex items-center gap-3  bg-white border border-primary shadow-bottom-right shadow-${toastColor}`}
+      className={`fixed min-w-[6rem] px-3 py-2 left-1/2 -top-20 -translate-x-1/2 flex items-center gap-3  bg-white border border-primary`}
       style={{
         transform: toast ? "translate(-50%, 200%)" : ""
       }}

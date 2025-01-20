@@ -81,13 +81,6 @@ function Orders() {
                   <span className="text-base font-bold">{order.amount}</span>
                 </p>
                 <p>{order.address}</p>
-                {/* <div className="text-center outline-2-red">
-                  <button
-                    className="shadow-bottom-right-sm shadow-primary bg-secondary text-white px-2 py-1 active:shadow-none active:translate-x-[2px] translate-y-[4px] outline-2-green"
-                  >
-                    Show Items
-                  </button>
-                  </div> */}
                   <p
                     className="text-secondary text-center underline underline-offset-4 font-bold cursor-pointer"
                   >
