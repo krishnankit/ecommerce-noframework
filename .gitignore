@@ -10,8 +10,5 @@ node_modules/
 # Build files
 build/
 
-#Firebase config
-firebaseConfig.js
-
 #Secrets
 *.csv
