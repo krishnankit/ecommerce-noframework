@@ -1,17 +1,14 @@
 import React, { useContext } from "react";
-import { FaRupeeSign } from "react-icons/fa";
+import { FaRupeeSign, FaShoppingBag, FaShoppingBasket, FaShoppingCart } from "react-icons/fa";
 import { globalContext } from "../context/globalState";
 import { useNavigate } from "react-router";
 import { fireDB } from "../../firebaseConfig";
 import { collection, addDoc, doc, updateDoc, getDoc } from "firebase/firestore";
+import { FaCartShopping } from "react-icons/fa6";
 
 function ProductCard({ product }) {
   const { globalState: { currentUser }, displayToast } = useContext(globalContext);
   const navigate = useNavigate();
-
-  function handleBuy(productId) {
-    alert("Product bought");
-  }
 
   async function handleAddToCart(productId) {
     if (currentUser) {
@@ -48,31 +45,23 @@ function ProductCard({ product }) {
   }
 
   return (
-    <div className="pt-3 pb-5 px-3 border border-2 border-secondary rounded">
-      <div className=" flex items-center">
-        <img
-          className="w-[60%] aspect-square"
-          src={product.imageURL}
-          alt={product.title}
-        />
-        <p className="w-[40%] text-center text-3xl font-bold">
+    <div className="flex flex-col justify-between py-3 px-4 rounded shadow-md">
+      <img
+        className="w-full aspect-square"
+        src={product.imageURL}
+        alt={product.title}
+      />
+      <h1 className="mt-2">{product.title}</h1>
+      <div className="w-full flex justify-between items-center">
+        <p className="text-3xl font-bold">
           <FaRupeeSign className="inline text-base" />
           {product.price}
         </p>
-      </div>
-      <h1 className="mt-2">{product.title}</h1>
-      <div className="flex justify-center mt-4 gap-3">
         <button
-          className="w-[full] px-4 py-2 rounded cusor-pointer text-white bg-primary hover:text-primary hover:bg-white hover:border hover:border-primary transition delay-100"
-          onClick={() => handleBuy(product.id)}
+          className="px-4 py-2 text-secondary rounded cusor-pointer hover:scale-105 hover:shadow-sm active:shadow-none active:scale-95 transition duration-150"
+          // onClick={() => {handleAddToCart(product.id)}}
         >
-          Buy
-        </button>
-        <button
-          className="w-[full] px-4 py-2 border border-secondary rounded text-secondary cusor-pointer hover:text-white hover:bg-secondary transition delay-100"
-          onClick={() => {handleAddToCart(product.id)}}
-        >
-          Add to Cart
+          <FaShoppingCart className="text-xl" />
         </button>
       </div>
     </div>

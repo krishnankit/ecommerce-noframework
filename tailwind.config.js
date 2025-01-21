@@ -19,7 +19,8 @@ export default {
       secondary: "#2C74B3",
       tertiary: "#EEEEEE",
       white: "#FFFFFF",
-      gray: "#555555",
+      gray: "rgba(0, 0, 0, 0.2)",
+      darkgray: "rgba(0, 0, 0, 0.7)",
       red: "#BB0000",
       green: "#00BB00",
       selected: "#ddffdd",
@@ -41,9 +42,9 @@ export default {
     },
     boxShadow: {
       "none": "none",
-      "bottom-right-sm": "2px 4px",
-      "bottom-right-md": "3px 6px",
-      "bottom-right" : "5px 8px",
+      "sm": "0px 0px 0.2rem rgba(0, 0, 0, 0.2)",
+      "md": "0px 0px 0.3rem rgba(0, 0, 0, 0.2)",
+      "lg": "0px 0px 0.4rem rgba(0, 0, 0, 0.2)",
     },
     // safelist: [
     //   {
