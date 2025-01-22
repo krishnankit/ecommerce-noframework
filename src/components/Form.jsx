@@ -6,7 +6,7 @@ function Form({ children, onSubmit, title, submitText }) {
       <form
         action={ onSubmit }
         noValidate
-        className="w-1/3 border border-gray rounded px-6 py-5"
+        className="w-1/3 px-6 py-5 border border-gray rounded shadow-lg"
       >
         <h3 className="text-2xl font-bold mb-3 text-center text-primary">
           { title }
@@ -14,7 +14,7 @@ function Form({ children, onSubmit, title, submitText }) {
         { children }
         <button
           type="submit"
-          className="block mx-auto mt-4 px-3 py-1 rounded cursor-pointer bg-secondary text-white hover:bg-primary"
+          className="block mx-auto mt-4 px-3 py-1 cursor-pointer border rounded border-gray-800 hover:border-indigo-500 hover:text-indigo-500"
         >
           {submitText}
         </button>
@@ -33,7 +33,7 @@ function FormControl({ children }) {
 
 function FieldError({ message }) {
   return (
-    <span className="block text-xs text-red">{message}</span>
+    <span className="block text-xs text-red-700">{message}</span>
   );
 }
 

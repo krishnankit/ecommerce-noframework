@@ -6,26 +6,11 @@ export default {
   ],
   // This is needed for dynamic class allocation (ref: purging)
   safelist: [
-    "bg-secondary",
-    "bg-green",
-    "bg-red",
-    "shadow-secondary",
-    "shadow-green",
-    "shadow-red",
+    "bg-indigo-600",
+    "bg-green-600",
+    "bg-red-700",
   ],
   theme: {
-    colors: {
-      primary: "#0A2647",
-      secondary: "#2C74B3",
-      tertiary: "#EEEEEE",
-      white: "#FFFFFF",
-      gray: "rgba(0, 0, 0, 0.2)",
-      darkgray: "rgba(0, 0, 0, 0.7)",
-      red: "#BB0000",
-      green: "#00BB00",
-      selected: "#ddffdd",
-      transparent: "rgba(0, 0, 0, 0.3)"
-    },
     fontFamily: {
       primary: ["Montserrat", "sans"],
       secondary: ["Agbalumo", "sans"],

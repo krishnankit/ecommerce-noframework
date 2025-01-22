@@ -17,13 +17,19 @@ export function globalReducer(state, { type, payload }) {
     case "DISPLAY_TOAST": {
       return {
         ...state,
-        toast: payload,
+        toast: {
+          ...payload,
+          show: true,
+        },
       }
     }
     case "CLOSE_TOAST": {
       return {
         ...state,
-        toast: null,
+        toast: {
+          ...state.toast,
+          show: false,
+        },
       }
     }
     default: {

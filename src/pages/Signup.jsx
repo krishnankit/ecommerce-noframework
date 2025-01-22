@@ -14,7 +14,6 @@ function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
-    admin: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -57,7 +56,6 @@ function Signup() {
      createUserWithEmailAndPassword(auth, formData.email, formData.password)
      .then(userCred => {
       const newUser = {
-        isAdmin: formData.admin,
         name: formData.name,
         email: formData.email,
         uid: userCred.user.uid,
@@ -130,7 +128,7 @@ function Signup() {
             type="text"
             id="name"
             name="name"
-            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.name ? "border-red" : "border-gray"}`}
+            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.name ? "border-red-700" : "border-gray"}`}
             placeholder="Name..."
             value={formData.name}
             onChange={handleChange}
@@ -142,7 +140,7 @@ function Signup() {
             type="email"
             id="email"
             name="email"
-            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.email ? "border-red" : "border-gray"}`}
+            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.email ? "border-red-700" : "border-gray"}`}
             placeholder="Email..."
             value={formData.email}
             onChange={handleChange}
@@ -154,7 +152,7 @@ function Signup() {
             type="password"
             id="password"
             name="password"
-            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.password ? "border-red" : "border-gray"}`}
+            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.password ? "border-red-700" : "border-gray"}`}
             placeholder="Password..."
             value={formData.password}
             onChange={handleChange}
@@ -166,24 +164,15 @@ function Signup() {
             type="password"
             id="confirm-password"
             name="confirmPassword"
-            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.confirmPassword ? "border-red" : "border-gray"}`}
+            className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.confirmPassword ? "border-red-700" : "border-gray"}`}
             placeholder="Confirm Password..."
             value={formData.confirmPassword}
             onChange={handleChange}
           />
           <FieldError message={errors.confirmPassword} />
         </FormControl>
-        <FormControl>
-          <input
-            type="checkbox"
-            name="admin"
-            id="admin"
-            onChange={handleChange}
-          />
-          <label htmlFor="admin"><strong> Register as a SELLER {formData.admin}</strong></label>
-        </FormControl>
         <p>
-          Already registered ? <Link to="/signin" className="text-secondary underline">Sign In</Link>
+          Already registered ? <Link to="/signin" className="text-indigo-500 underline">Sign In</Link>
         </p>
     </Form>
   );

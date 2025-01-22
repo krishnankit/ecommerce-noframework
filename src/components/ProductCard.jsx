@@ -47,7 +47,7 @@ function ProductCard({ product }) {
   return (
     <div className="flex flex-col justify-between py-3 px-4 rounded shadow-md">
       <img
-        className="w-full aspect-square"
+        className="w-full aspect-square rounded"
         src={product.imageURL}
         alt={product.title}
       />
@@ -59,7 +59,7 @@ function ProductCard({ product }) {
         </p>
         <button
           className="px-4 py-2 text-secondary rounded cusor-pointer hover:scale-105 hover:shadow-sm active:shadow-none active:scale-95 transition duration-150"
-          // onClick={() => {handleAddToCart(product.id)}}
+          onClick={() => {handleAddToCart(product.id)}}
         >
           <FaShoppingCart className="text-xl" />
         </button>

@@ -3,7 +3,11 @@ import { globalReducer } from "./globalReducer";
 
 const initialState = {
   currentUser: JSON.parse(localStorage.getItem("user")) ?? null,
-  toast: null,
+  toast: {
+    message: "",
+    type: "",
+    show: false,
+  },
 }
 
 export const globalContext = createContext(initialState);
@@ -30,7 +34,8 @@ export function GlobalContextProvider({ children }) {
       type: "DISPLAY_TOAST",
       payload: {
         message,
-        type
+        type,
+        show: true,
       }
     });
   }
@@ -38,7 +43,9 @@ export function GlobalContextProvider({ children }) {
   function closeToast() {
     dispatch({
       type: "CLOSE_TOAST",
-      payload: {}
+      payload: {
+        show: false,
+      }
     });
   }
 

@@ -5,21 +5,21 @@ function Toast() {
   const { globalState: { toast }, closeToast } = useContext(globalContext);
 
   const colors = {
-    "info": "secondary",
-    "success": "green",
-    "error": "red"
+    "info": "indigo-600",
+    "success": "green-600",
+    "error": "red-700"
   }
 
   const toastColor = colors[toast?.type] || "secondary";
 
   return (
     <div
-      className={`fixed min-w-[6rem] px-3 py-2 left-1/2 -top-20 -translate-x-1/2 flex items-center gap-3  bg-white border border-primary`}
+      className={`fixed min-w-[6rem] px-5 py-2 left-1/2 -top-40 -translate-x-1/2 flex items-center gap-3  bg-gray-50 rounded shadow-sm transition duration-300`}
       style={{
-        transform: toast ? "translate(-50%, 200%)" : ""
+        transform: toast.show ? "translate(-50%, 11rem)" : ""
       }}
     >
-      <div className={`bg-${toastColor} w-2 h-8`}></div>
+      <div className={`bg-${toastColor} w-6 h-6 rounded-[50%]`}></div>
       <p className="ml-2">{toast?.message}</p>
       <button
         className="cursor-pointer"

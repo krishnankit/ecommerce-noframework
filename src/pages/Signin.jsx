@@ -120,7 +120,7 @@ function Signin() {
           type="email"
           id="email"
           name="email"
-          className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.email ? "border-red" : "border-gray"}`}
+          className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.email ? "border-red-700" : "border-gray"}`}
           placeholder="Email..."
           value={formData.email}
           onChange={handleChange}
@@ -133,7 +133,7 @@ function Signin() {
           id="password"
           name="password"
           autoComplete="true"
-          className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.password ? "border-red" : "border-gray"}`}
+          className={`w-full py-1 px-2 text-sm border-2 rounded outline-none ${errors.password ? "border-red-700" : "border-gray"}`}
           placeholder="Password..."
           value={formData.password}
           onChange={handleChange}
@@ -141,7 +141,7 @@ function Signin() {
         <FieldError message={errors.password} />
       </FormControl>
       <p>
-        New User ? <Link to="/signup" className="text-secondary underline">Sign Up</Link>
+        New User ? <Link to="/signup" className="text-indigo-500 underline">Sign Up</Link>
       </p>
     </Form>
   );
