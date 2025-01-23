@@ -5,3 +5,7 @@
 body {
   background-color: #f9fafb;
 }
+
+.container {
+  width: 90%;
+}
