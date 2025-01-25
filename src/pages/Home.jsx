@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router";
 import { checkAdmin } from "../helpers";
 import { globalContext } from "../context/globalState";
-import Filter from "../components/Fiter";
+import Filter from "../components/Filter";
 
 function Home() {
   const { globalState: { currentUser } } = useContext(globalContext);

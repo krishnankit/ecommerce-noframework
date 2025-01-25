@@ -7,8 +7,12 @@ function Navbar() {
   const { globalState: { currentUser }, logout, displayToast } = useContext(globalContext);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
-  const [mobileNavClassName, setMobileNavClassName] = useState("hidden");
+  const mobileNavRef = useRef();
   const navigate = useNavigate();
+
+  function toggleMobileNav() {
+    setShowMobileNav(show => !show);
+  }
 
   // Check if current user is admin
   useEffect(() => {
@@ -23,17 +27,8 @@ function Navbar() {
     }
   }, [currentUser]);
 
-  // Change nav class name depending on showMobileNav for smaller screens
-  useEffect(() => {
-    if (showMobileNav) {
-      setMobileNavClassName("block");
-    } else {
-      setMobileNavClassName("hidden");
-    }
-  }, [showMobileNav]);
-
   return (
-    <nav className="bg-gray-50 text-slate-800 shadow-lg overflow-hidden">
+    <nav className="w-full bg-gray-50 text-slate-800 shadow-lg">
       <div className="container relative m-auto flex items-center justify-between py-2">
         <div>
           <Link to="/" className="text-4xl">
@@ -46,7 +41,7 @@ function Navbar() {
             </span>
           }
         </div>
-        <ul className="hidden md:flex md:justify-center md:items-center">
+        <ul className="hidden md:flex md:items-center md:gap-4">
           { isAdmin ?
             <>
               <Navitem label="Products" link="admin/products" />
@@ -63,7 +58,7 @@ function Navbar() {
             <Navitem label="Sign In" link="signin" />
             :
             <button
-              className="ml-6 px-4 py-2 w-30 text-center cursor-pointer hover:underline transition duration-150"
+              className="px-4 py-2 w-30 text-center cursor-pointer hover:underline transition duration-150"
               onClick={() => {
                 logout();
                 navigate("/");
@@ -79,7 +74,7 @@ function Navbar() {
         </ul>
         <button
           className="w-auto h-auto p-1 border rounded border-slate-800 flex justify-center items-center md:hidden cursor-pointer"
-          onClick={() => setShowMobileNav(showMobileNav => !showMobileNav)}
+          onClick={toggleMobileNav}
         >
         <svg width="2rem" height="2rem" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
@@ -92,16 +87,22 @@ function Navbar() {
         </svg>
         </button>
       </div>
-      <ul className={`z-40 absolute top-0 right-0 h-[100vh] w-[25%] min-h-[10rem] min-w-[10rem] px-4 py-10 bg-gray-50 border ${mobileNavClassName} md:hidden`}>
+      <ul
+        className={`z-40 absolute top-0 right-0 h-[100vh] min-h-[10rem] p-8 bg-gray-50 text-center border overflow-hidden transition-[visibility] duration-200`}
+        ref={mobileNavRef}
+        style={{
+          visibility: showMobileNav ? "visible" : "collapse",
+        }}
+      >
         <>
           <button
-          className="cursor-pointer border-2 border-slate-800 rounded p-2 absolute top-2 right-2"
-          onClick={() => setShowMobileNav(showMobileNav => !showMobileNav)}
+          className="cursor-pointer p-2 absolute top-2 right-2"
+          onClick={toggleMobileNav}
         >
           <svg
             viewBox="0 0 12 12"
-            width="12"
-            height="12"
+            width="10"
+            height="10"
           >
             <line
               x1="0" y1="0"
@@ -133,7 +134,7 @@ function Navbar() {
             <Navitem label="Sign In" link="signin" />
             :
             <li
-              className="ml-6 px-4 py-2 text-center cursor-pointer hover:underline transition duration-150"
+              className="px-4 py-2 text-center cursor-pointer hover:underline transition duration-150"
               onClick={() => {
                 logout();
                 navigate("/");
@@ -154,7 +155,7 @@ function Navbar() {
 
 function Navitem({ label, link }) {
   return (
-    <li className="ml-6 px-4 py-2 text-center cursor-pointer hover:underline transition duration-150">
+    <li className="px-4 py-2 block whitespace-nowrap text-center cursor-pointer hover:underline transition duration-150">
       <Link to={link}>{label}</Link>
     </li>
   );

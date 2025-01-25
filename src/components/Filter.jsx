@@ -57,7 +57,7 @@ function Filter({ setFilter }) {
       </div>
       <div className="w-full relative flex">
         <button
-          className={`relative inline-block w-full px-2 py-1 outline-none bg-white text-left text-slate-800 capitalize group ${showDropdown ? "open" : ""}`}
+          className={`relative inline-block w-full px-2 py-1 outline-none bg-white text-left text-slate-800 capitalize border-b-2 border-indigo-600 group ${showDropdown ? "open" : ""}`}
           onClick={toggleDropdown}
           ref={dropdownBtnRef}
         >
@@ -110,7 +110,7 @@ function Dropdown({ show, dropdownRef, setCategory }) {
   const [dropdownHeight, setDropdownHeight] = useState(0);
 
   useEffect(() => {
-    if (show) {
+    if (dropdownRef.current) {
       setDropdownHeight(dropdownRef.current.scrollHeight);
     }
   }, [show]);
