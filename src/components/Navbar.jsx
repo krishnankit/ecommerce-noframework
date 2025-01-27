@@ -29,6 +29,7 @@ function Navbar() {
 
   return (
     <nav className="w-full bg-gray-50 text-slate-800 shadow-lg">
+      {/* Desktop navbar */}
       <div className="container relative m-auto flex items-center justify-between py-2">
         <div>
           <Link to="/" className="text-4xl">
@@ -87,11 +88,16 @@ function Navbar() {
         </svg>
         </button>
       </div>
+
+      {/* Mobile navbar */}
       <ul
-        className={`z-40 absolute top-0 right-0 h-[100vh] min-h-[10rem] p-8 bg-gray-50 text-center border overflow-hidden transition-[visibility] duration-200`}
+        className={`z-40 min-h-full fixed overflow-hidden top-0 right-0 bg-gray-50 shadow-[-10px 0 rgba(0, 0, 0, 0.4)]`}
         ref={mobileNavRef}
         style={{
-          visibility: showMobileNav ? "visible" : "collapse",
+          boxShadow: "0 0 5px rgba(0, 0, 0, 0.4)",
+          width: showMobileNav ? "50%" : "0",
+          padding: showMobileNav ? "2rem" : "2rem 0",
+          transition: "width 0.5s",
         }}
       >
         <>
