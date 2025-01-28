@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { collection, doc, documentId, getDocs, getDoc, query, where } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 import { globalContext } from "../context/globalState";
-import { FaArrowDown, FaArrowUp, FaRupeeSign, FaTrash } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaMinus, FaPlus, FaRupeeSign, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import CartSummary from "../components/CartSummary";
 
@@ -80,7 +80,17 @@ function Cart() {
   }
 
   function handleCheckout() {
-    console.log("grandtotal", grandTotal);
+    cartItems.forEach(item => {
+      if (item.cartQuantity > item.quantity) {
+        displayToast({
+          message: `Inadequate stock for ${item.title}`,
+          type: "info",
+        });
+
+        return;
+      }
+    });
+
     localStorage.setItem("cart", JSON.stringify({
       items: cartItems,
       grandTotal
@@ -97,14 +107,14 @@ function Cart() {
         :
         <>
           <div className="lg:w-[73%] text-center mb-[5rem]">
-            <div className="flex justify-between text-primary border-b-4 mb-3 border-secondary text-2xl font-bold">
+            <div className="flex justify-between text-primary border-b-4 mb-3 border-indigo-500 text-2xl font-bold">
               <h1>Your Kart:</h1>
               <h1>Total items: {cartItems.length}</h1>
             </div>
             {
               cartItems.map(cartItem => {
                 return (
-                  <div key={cartItem.id} className="grid sm:grid-cols-2 md:grid-cols-[1fr_1fr_1fr_1fr_0.2fr] items-center gap-4 border-b-2 py-3 border-secondary">
+                  <div key={cartItem.id} className="mb-1 grid sm:grid-cols-2 md:grid-cols-[1fr_1fr_1fr_1fr_0.2fr] items-center gap-4 p-3 shadow-sm">
                     <img
                       src={cartItem.imageURL}
                       alt={cartItem.id}
@@ -121,23 +131,7 @@ function Cart() {
                     </div>
                     <div>
                       <button
-                        className="py-1 px-2 rounded bg-secondary text-white active:translate-x-[2px] active:translate-y-[4px] transition duration-75 cursor-pointer"
-                        onClick={() =>{
-                          if (cartItem.quantity > cartItem.cartQuantity) {
-                            modifyQuantity(cartItem.id, "INCREMENT")
-                          } else {
-                            displayToast({
-                              message: "No more stock left",
-                              type: "info",
-                            });
-                          }
-                        }}
-                      >
-                        <FaArrowUp />
-                      </button>
-                      <p className="inline-block mx-2 w-[2rem]">{cartItem.cartQuantity}</p>
-                      <button
-                        className="py-1 px-2 rounded bg-secondary text-white transition duration-75 cursor-pointer"
+                        className="p-2 bg-gray-50 text-slate-800 rounded shadow-sm"
                         onClick={() => {
                           if (cartItem.cartQuantity > 1) {
                             modifyQuantity(cartItem.id, "DECREMENT")
@@ -149,16 +143,32 @@ function Cart() {
                           }
                         }}
                       >
-                        <FaArrowDown />
+                        <FaMinus />
+                      </button>
+                      <p className="inline-block mx-2 w-[2rem]">{cartItem.cartQuantity}</p>
+                      <button
+                        className="p-2 bg-gray-50 text-slate-800 rounded shadow-sm"
+                        onClick={() =>{
+                          if (cartItem.quantity > cartItem.cartQuantity) {
+                            modifyQuantity(cartItem.id, "INCREMENT")
+                          } else {
+                            displayToast({
+                              message: "No more stock left",
+                              type: "info",
+                            });
+                          }
+                        }}
+                      >
+                        <FaPlus />
                       </button>
                     </div>
                     <div>
                       <button
-                          className="py-1 px-2 ml-4 rounded bg-white border border-red text-red transition duration-75 cursor-pointer"
-                          onClick={() => deleteItem(cartItem.id)}
-                        >
-                          <FaTrash />
-                        </button>
+                        className="p-2 ml-4 rounded bg-white text-red-600 shadow shadow-sm transition duration-200 cursor-pointer hover:text-indigo-500"
+                        onClick={() => deleteItem(cartItem.id)}
+                      >
+                        <FaTrash />
+                      </button>
                     </div>
                   </div>
                 );
@@ -168,7 +178,7 @@ function Cart() {
           <div className="lg:w-[25%]">
             <CartSummary cartItems={cartItems} />
             <button
-              className="w-full mt-4 py-2 text-white bg-primary"
+              className="w-full mt-4 py-2 bg-gray-50 text-indigo-500 border border-indigo-500 rounded shadow-sm shadow-indigo-500 hover:opacity-75 active:shadow-none"
               onClick={handleCheckout}
             >
               Proceed to CHECKOUT!

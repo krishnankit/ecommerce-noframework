@@ -40,7 +40,7 @@ function Filter({ setFilter }) {
           name="title"
           id="title"
           placeholder="Search"
-          className="px-2 py-1 outline-none border-b-2 border-indigo-600 w-full"
+          className="px-2 py-1 outline-none border-b-2 border-indigo-500 w-full"
           ref={titleRef}
         />
         <button className="outline-none">
@@ -57,7 +57,7 @@ function Filter({ setFilter }) {
       </div>
       <div className="w-full relative flex">
         <button
-          className={`relative inline-block w-full px-2 py-1 outline-none bg-white text-left text-slate-800 capitalize border-b-2 border-indigo-600 group ${showDropdown ? "open" : ""}`}
+          className={`relative inline-block w-full px-2 py-1 outline-none bg-white text-left text-slate-800 capitalize border-b-2 border-indigo-500 group ${showDropdown ? "open" : ""}`}
           onClick={toggleDropdown}
           ref={dropdownBtnRef}
         >
@@ -70,14 +70,14 @@ function Filter({ setFilter }) {
             preserveAspectRatio="none"
           >
             <path
-              className="transition duration-100 stroke-indigo-600"
+              className="transition duration-100 stroke-indigo-500"
               d="M0 0 L40 50"
               fill="none"
               strokeLinecap="round"
               strokeWidth="10"
             />
             <path
-              className="transition duration-100 stroke-indigo-600"
+              className="transition duration-100 stroke-indigo-500"
               d="M40 50 L80 0"
               fill="none"
               strokeLinecap="round"
@@ -130,7 +130,7 @@ function Dropdown({ show, dropdownRef, setCategory }) {
           return (
             <li
               key={category}
-              className="px-2 py-1 text-slate-800 cursor-pointer transition duration-200 hover:bg-indigo-600 hover:text-gray-50 capitalize"
+              className="px-2 py-1 text-slate-800 cursor-pointer transition duration-200 hover:bg-indigo-500 hover:text-gray-50 capitalize"
               onClick={() => setCategory(category)}
             >
               {category}

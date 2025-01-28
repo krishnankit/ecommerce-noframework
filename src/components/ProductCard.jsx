@@ -58,7 +58,7 @@ function ProductCard({ product }) {
           {product.price}
         </p>
         <button
-          className="px-4 py-2 text-secondary rounded cusor-pointer hover:scale-105 hover:shadow-sm active:shadow-none active:scale-95 transition duration-150"
+          className="px-4 py-2 text-indigo-500 rounded cusor-pointer hover:scale-105 hover:shadow-sm active:shadow-none active:scale-95 transition duration-150"
           onClick={() => {handleAddToCart(product.id)}}
         >
           <FaShoppingCart className="text-xl" />

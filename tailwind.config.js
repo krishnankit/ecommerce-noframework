@@ -6,8 +6,8 @@ export default {
   ],
   // This is needed for dynamic class allocation (ref: purging)
   safelist: [
-    "bg-indigo-600",
-    "bg-green-600",
+    "bg-indigo-500",
+    "bg-green-500",
     "bg-red-700",
   ],
   theme: {

@@ -1,16 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { globalContext } from "../context/globalState";
 
 function Toast() {
   const { globalState: { toast }, closeToast } = useContext(globalContext);
 
   const colors = {
-    "info": "indigo-600",
+    "info": "indigo-500",
     "success": "green-600",
     "error": "red-700"
   }
 
   const toastColor = colors[toast?.type] || "secondary";
+
+  useEffect(() => {
+    if (toast.show) {
+      setTimeout(closeToast, 2000);
+    }
+  }, [toast.show])
 
   return (
     <div
