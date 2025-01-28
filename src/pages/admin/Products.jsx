@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router";
-import { FaPen, FaEye, FaTrash } from "react-icons/fa";
+import { FaPen, FaEye, FaTrash, FaRupeeSign } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../../../firebaseConfig";
 import { globalContext } from "../../context/globalState";
@@ -46,63 +46,59 @@ function Products() {
 
   return (
     <div className="text-center">
-      <h1 className="text-2xl font-bold text-primary">Products</h1>
-      <table className="mt-3 mx-auto">
-        <colgroup><col /><col /><col /><col /><col /><col /></colgroup>
-        <thead>
-          <tr>
-            <th className="px-3 py-2 border border-2 border-primary">Sr no.</th>
-            <th className="px-3 py-2 border border-2 border-primary">Title</th>
-            <th className="px-3 py-2 border border-2 border-primary">Price</th>
-            <th className="px-3 py-2 border border-2 border-primary">Quantity</th>
-            <th colSpan="3" className="px-2 py-1 border border-2 border-primary">Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((prod, index) => {
-            return (
-              <tr key={prod.id} className="">
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary"
-                >
-                  {index + 1}
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary"
+      <h1 className="text-2xl font-bold text-slate-800">Products</h1>
+      <div>
+        {products.map((prod, index) => {
+          return (
+            <div key={prod.id} className={`grid grid-cols-[1fr_10fr] lg:grid-cols-[1fr_12fr] items-center my-2 ${index % 2 ? "bg-gray-50" : "bg-white"} px-2 shadow-sm`}>
+              <p
+                className="px-3 py-2 text-center"
+              >
+                {index + 1}
+              </p>
+              <div className="md:grid md:grid-cols-[5fr_5fr] lg:grid-cols-[7fr_5fr] items-center">
+                <p
+                  className="px-3 py-3 text-left md:text-center"
                 >
                   {prod.title}
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary"
-                >
-                  {prod.price}
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary"
-                >
-                  {prod.quantity}
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary text-secondary hover:bg-tertiary cursor-pointer"
-                >
-                  <Link to={`/admin/edit-product/${prod.id}`}><FaPen /></Link>
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary text-red hover:bg-tertiary cursor-pointer"
-                >
-                  <FaTrash />
-                </td>
-                <td
-                  className="px-3 py-2 text-center border border-2 border-primary hover:bg-tertiary cursor-pointer"
-                  onClick={() => displayModal({ prod })}
-                >
-                  <FaEye />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                </p>
+                <div className="grid grid-cols-[2fr_3fr]">
+                  <div className="grid grid-cols-2">
+                    <p
+                      className="px-3 py-2 text-center"
+                    >
+                      <FaRupeeSign className="inline text-sm -mt-1" />{prod.price}
+                    </p>
+                    <p
+                      className="px-3 py-2 text-center"
+                    >
+                      {prod.quantity}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-3">
+                    <p
+                      className="px-3 py-2 text-center hover:text-indigo-500 hover:bg-tertiary cursor-pointer"
+                    >
+                      <Link to={`/admin/edit-product/${prod.id}`}><FaPen /></Link>
+                    </p>
+                    <p
+                      className="px-3 py-2 text-center hover:text-indigo-500 cursor-pointer"
+                      onClick={() => displayModal({ prod })}
+                    >
+                      <FaEye />
+                    </p>
+                    <p
+                      className="px-3 py-2 text-center text-red-600 cursor-pointer"
+                    >
+                      <FaTrash />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       {
         showModal && <ProductModal product={modalProduct} onClose={closeModal} />
       }

@@ -47,6 +47,7 @@ function AddProduct() {
     if (validate(formData)) {
       const newProduct = {
         ...formData,
+        sellerId: currentUser.uid,
         createdAt: Timestamp.now(),
       }
       const docRef = collection(fireDB, "products");
