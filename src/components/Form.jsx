@@ -6,7 +6,7 @@ function Form({ children, onSubmit, title, submitText }) {
       <form
         action={ onSubmit }
         noValidate
-        className="w-1/3 px-6 py-5 border border-gray rounded shadow-lg"
+        className="w-7/8 lg:w-1/3 px-6 py-5 border border-gray rounded shadow-lg"
       >
         <h3 className="text-2xl font-bold mb-3 text-center text-primary">
           { title }

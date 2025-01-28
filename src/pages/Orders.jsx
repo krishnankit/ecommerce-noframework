@@ -37,6 +37,9 @@ function Orders() {
         })
       });
 
+      orders.sort((a, b) => {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      });
       setOrders(orders);
     })
     .catch(error => {
@@ -69,12 +72,13 @@ function Orders() {
           <h1></h1>
         </div>
         {
-          orders.map(order => {
+          orders.map((order, index) => {
             return (
               <div
                 key={order.id}
-                className="grid grid-cols-[1fr_1fr_2fr_1fr] items-center border-b-2 border-secondary p-2 text-sm"
+                className="grid grid-cols-[1fr_2fr_2fr_4fr_2fr] my-2 items-center p-2 text-sm shadow-sm hover:opacity-75"
               >
+                <p>{index + 1}</p>
                 <p>{order.createdAt.toDate().toLocaleString()}</p>
                 <p>
                   <FaRupeeSign className="inline mb-1" />
@@ -82,7 +86,7 @@ function Orders() {
                 </p>
                 <p>{order.address}</p>
                   <p
-                    className="text-secondary text-center underline underline-offset-4 font-bold cursor-pointer"
+                    className="text-indigo-500 text-center underline underline-offset-4 font-bold cursor-pointer"
                   >
                     Show Items
                   </p>
