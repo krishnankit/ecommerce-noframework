@@ -4,8 +4,12 @@ import { IoClose } from "react-icons/io5";
 
 function ProductModal({ product, onClose }) {
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen bg-transparent flex justify-center items-center">
-      <main className="relative w-[70%] h-[80%] py-4 px-8 overflow-auto rounded-md bg-white box-shadow-md" >
+    <div
+      className="fixed top-0 left-0 w-screen h-screen bg-transparent flex justify-center items-center"
+      // Don't respond to events outside of modal
+      onClick={(e) => e.stopPropagation()}
+    >
+      <main className="relative w-[70%] h-[80%] py-4 px-8 overflow-auto rounded-md bg-white shadow-sm" >
         <button
           className="absolute top-2 right-2 text-3xl"
           onClick={onClose}

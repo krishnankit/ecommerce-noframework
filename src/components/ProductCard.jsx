@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { FaRupeeSign, FaShoppingBag, FaShoppingBasket, FaShoppingCart } from "react-icons/fa";
+import { FaRupeeSign, FaShoppingCart } from "react-icons/fa";
 import { globalContext } from "../context/globalState";
 import { useNavigate } from "react-router";
 import { fireDB } from "../../firebaseConfig";
-import { collection, addDoc, doc, updateDoc, getDoc } from "firebase/firestore";
-import { FaCartShopping } from "react-icons/fa6";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 function ProductCard({ product }) {
   const { globalState: { currentUser }, displayToast } = useContext(globalContext);

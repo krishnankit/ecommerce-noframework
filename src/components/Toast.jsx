@@ -10,7 +10,7 @@ function Toast() {
     "error": "red-700"
   }
 
-  const toastColor = colors[toast?.type] || "secondary";
+  const toastColor = colors[toast?.type] || "indigo-500";
 
   useEffect(() => {
     if (toast.show) {
