@@ -1,65 +1,18 @@
-import React, { useContext } from "react"
-import { globalContext } from "../context/globalState";
+import React, { useEffect, useRef } from "react"
 import { Link } from "react-router";
 
 function Footer() {
-  // const globalContext = useContext(globalContext);
+  const footerRef = useRef();
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      document.body.style.paddingBottom = document.querySelector("footer").clientHeight;
+    })
+  }, []);
 
   return (
-    <div>
-      <footer className="text-white body-font bg-indigo-500">
-        <div className="container px-5 py-12 mx-auto" >
-          <div className="flex flex-wrap md:text-left text-center order-first">
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium tracking-widest text-sm mb-3">CATEGORIES</h2>
-              <nav className="list-none mb-10">
-                <li>
-                  <a className="text-white hover:opacity-75 cursor-pointer">Home</a>
-                </li>
-                <li>
-                  <a className="text-white hover:opacity-75 cursor-pointer">Order</a>
-                </li>
-                <li>
-                  <a className="text-white hover:opacity-75 cursor-pointer">Local For Vocal</a>
-                </li>
-                <li>
-                  <a className="text-white hover:opacity-75 cursor-pointer">Cart</a>
-                </li>
-              </nav>
-            </div>
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium tracking-widest text-sm mb-3 uppercase">Customer Service</h2>
-              <nav className="list-none mb-10">
-                <li>
-                  <Link to={"/returnpolicy"} className="text-white">Return Policy</Link>
-                </li>
-                <li>
-                  <Link to={"/about"} className="text-white hover:opacity-75 cursor-pointer">About</Link>
-                </li>
-                <li>
-                  <Link to={"/contact"} className="text-white hover:opacity-75 cursor-pointer">Contact Us</Link>
-                </li>
-              </nav>
-            </div>
-
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium tracking-widest text-sm mb-3 hover:opacity-75 cursor-pointer">Services</h2>
-              <nav className="list-none mb-10">
-                <li>
-                  <Link to={"/privacypolicy"} className="text-white hover:opacity-75 cursor-pointer">Privacy</Link>
-                </li>
-
-              </nav>
-            </div>
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <img
-                src="https://ecommerce-sk.vercel.app/pay.png"
-                alt="Payment Options"
-              />
-            </div>
-          </div>
-        </div>
-
+    <div ref={footerRef}>
+      <footer className="absolute bottom-0 w-full text-white body-font bg-indigo-500">
         <div className="bg-indigo-500 text-white">
           <div className="container px-5 py-3 mx-auto flex items-center sm:flex-row flex-col">
             <Link to={"/"} className="flex">
@@ -67,7 +20,7 @@ function Footer() {
                 <h1 className="text-2xl font-bold px-2 py-1 rounded">Kart</h1>
               </div>
             </Link>
-            <p className="text-sm sm:ml-6 sm:mt-0 mt-4">© 2023 Kart —
+            <p className="text-sm sm:ml-6 sm:mt-0 mt-4">© 2025 Kart —
               <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" className="text-gray-50 ml-1" target="_blank">www.kart.com</a>
             </p>
             <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
