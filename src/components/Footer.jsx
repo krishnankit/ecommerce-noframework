@@ -4,10 +4,15 @@ import { Link } from "react-router";
 function Footer() {
   const footerRef = useRef();
 
+  function modifyPadding() {
+    document.body.style.paddingBottom = document.querySelector("footer").clientHeight;
+  }
+
   useEffect(() => {
-    window.addEventListener("resize", () => {
-      document.body.style.paddingBottom = document.querySelector("footer").clientHeight;
-    })
+    modifyPadding();
+    window.addEventListener("resize", modifyPadding);
+
+    return window.removeEventListener("resize", modifyPadding);
   }, []);
 
   return (
