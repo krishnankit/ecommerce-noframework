@@ -1,13 +1,13 @@
-const { fireDB } = require("../firebaseConfig.js")
-const { collection, addDoc } = require("firebase/firestore");
+import { fireDB } from "./firebaseConfig";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 // SCRIPT TO ADD DUMMY PRODUCTS
 
 async function fetchFakeProducts() {
   try {
-    const response = await fetch("https://fakestoreapi.com/products");
-    const products = await response.json();
-    return products;
+    const response = await fetch("https://dummyjson.com/products?limit=100");
+    const data = await response.json();
+    return data.products;
   } catch (error) {
     console.log(error);
   }
@@ -15,6 +15,7 @@ async function fetchFakeProducts() {
 
 async function addProductsToFirestore() {
   const products = await fetchFakeProducts();
+
   if (!products) return;
 
   const productsCollectionRef = collection(fireDB, "products");
@@ -24,11 +25,12 @@ async function addProductsToFirestore() {
     for (let product of products) {
       const docRef = await addDoc(productsCollectionRef, {
         title: product.title,
-        price: product.price,
+        price: Math.round(product.price * 20),
         description: product.description,
-        imageURL: product.image,
+        imageURL: product.images[0],
         category: product.category,
-        ratings: Math.floor(Math.random() * 6),
+        ratings: product.rating,
+        createdAt: Date.now(),
       });
 
       count++;
