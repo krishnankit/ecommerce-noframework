@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { fireDB } from "../../firebaseConfig";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router";
-import { checkAdmin } from "../helpers";
+import { checkAdmin, fetchProducts } from "../helpers";
 import { globalContext } from "../context/globalState";
 import Filter from "../components/Filter";
 
 function Home() {
-  const { globalState: { currentUser } } = useContext(globalContext);
+  const { globalState: { currentUser }, displayToast } = useContext(globalContext);
+
+  // If current User is admin navigate to admin dashboard
   const navigate = useNavigate();
   if (currentUser) {
     checkAdmin(currentUser.uid)
@@ -19,7 +19,8 @@ function Home() {
       console.log(error);
     })
   }
-  const [unfilteredProducts, setUnfilteredProducts] = useState();
+
+  const [lastKey, setLastKey] = useState(null);
   const [products, setProducts] = useState([]);
 
   const [filter, setFilter] = useState({
@@ -27,28 +28,40 @@ function Home() {
     category: null,
   });
 
-  useEffect(() => {
-    const collectionRef = collection(fireDB, "products");
-    getDocs(collectionRef)
-    .then(snapShot => {
-      const products = [];
-      snapShot.forEach(doc => {
-        products.push({
-          id: doc.id,
-          ...doc.data(),
+  function handleViewMore() {
+    fetchProducts(lastKey)
+    .then(result => {
+      const { products, lastKey } = result;
+      if (products.length == 0) {
+        displayToast({
+          type: "info",
+          message: "No more products",
         });
-      });
-
-      setProducts(products);
-      setUnfilteredProducts(products);
-    })
-    .catch(error => {
-      displayToast({
-        message: "We Ran into problem. Please visit later",
-        type: "error",
-      });
-
+      } else {
+        setProducts(prevProducts => [...prevProducts, ...products]);
+        setLastKey(lastKey);
+      }
+    }).catch(error => {
       console.log(error);
+      displayToast({
+        type: "error",
+        message: "Something went wrong",
+      })
+    });
+  }
+
+  // Fetch first batch of products when home page is loaded
+  useEffect(() => {
+    fetchProducts(null)
+    .then(result => {
+      const { products, lastKey } = result;
+      setProducts(products);
+      setLastKey(lastKey);
+    }).catch(error => {
+      displayToast({
+        type: "error",
+        message: "Something went wrong",
+      })
     });
   }, []);
 
@@ -79,6 +92,12 @@ function Home() {
             return <ProductCard key={product.id} product={product} />
           })
         }
+      </div>
+      <div className="mt-4 text-center">
+      <button
+        className="px-3 py-2 text-base bg-indigo-500 text-white rounded shadow-sm cursor-pointer transition duration-150 hover:opacity-1/2 active:shadow-none"
+        onClick={handleViewMore}
+      >View More</button>
       </div>
     </div>
   );

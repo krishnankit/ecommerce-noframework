@@ -1,5 +1,5 @@
 import { fireDB } from "../firebaseConfig";
-import { collection, doc, query, where, getDocs, updateDoc } from "firebase/firestore";
+import { collection, doc, query, where, getDocs, updateDoc, orderBy, limit, startAfter } from "firebase/firestore";
 
 function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1, string.length);
@@ -55,10 +55,47 @@ function formattedAddress(address) {
   return  `${address.houseName}, ${address.streetName} ${address.city} - ${address.pincode}.`
 }
 
+// Used for infinite scrolling
+async function fetchProducts(key) {
+  let searchQuery = null;
+  if (key == null) {
+    searchQuery = query(
+      collection(fireDB, "products"),
+      orderBy("createdAt", "desc"),
+      limit(24),
+    )
+  } else {
+    searchQuery = query(
+      collection(fireDB, "products"),
+      orderBy("createdAt", "desc"),
+      startAfter(key),
+      limit(12)
+    )
+  }
+
+  const snapshot =  await getDocs(searchQuery)
+  if (snapshot.empty) {
+    return { products: [], lastKey }
+  }
+
+  const products = [];
+  snapshot.docs.forEach(doc => {
+    products.push({
+      id: doc.id,
+      ...doc.data(),
+    })
+  });
+
+  // To keep track of last fetched prod used in infinite scroll
+  const lastKey = products[products.length - 1].createdAt;
+  return { products, lastKey }
+}
+
 export {
   checkAdmin,
   capitalize,
   getUserIdAndName,
   destroyUserCart,
-  formattedAddress
+  formattedAddress,
+  fetchProducts,
 };
